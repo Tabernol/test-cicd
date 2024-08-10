@@ -48,6 +48,10 @@ jobs:
           chmod 400 ec2_key.pem
           scp -o StrictHostKeyChecking=no -i ec2_key.pem app-legion.jar $EC2_USER@$EC2_HOST:/home/$EC2_USER/
           ssh -o StrictHostKeyChecking=no -i ec2_key.pem $EC2_USER@$EC2_HOST << EOF
-            pkill -f 'java -jar app-legion.jar' || true
+            # Stop old application
+            pkill -f 'java -jar /home/$EC2_USER/app-legion.jar' || true
+            sleep 5  # Wait a bit for the process to be fully stopped
+
+            # Start new application
             nohup java -jar /home/$EC2_USER/app-legion.jar > /home/$EC2_USER/app.log 2>&1 &
           EOF
