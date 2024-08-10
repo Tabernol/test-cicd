@@ -46,8 +46,8 @@ jobs:
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
         chmod 400 ec2_key.pem
-        scp -i ec2_key.pem my-app.jar $EC2_USER@$EC2_HOST:/home/$EC2_USER/
-        ssh -i ec2_key.pem $EC2_USER@$EC2_HOST << EOF
+        scp -o StrictHostKeyChecking=no -i ec2_key.pem my-app.jar $EC2_USER@$EC2_HOST:/home/$EC2_USER/
+        ssh -o StrictHostKeyChecking=no -i ec2_key.pem $EC2_USER@$EC2_HOST << EOF
           pkill -f 'java -jar my-app.jar' || true
           nohup java -jar /home/$EC2_USER/my-app.jar > /home/$EC2_USER/app.log 2>&1 &
         EOF
