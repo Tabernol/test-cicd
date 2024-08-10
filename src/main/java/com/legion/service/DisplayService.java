@@ -3,6 +3,6 @@ package com.legion.service;
 public class DisplayService {
 
     public String getMessage(){
-        return "test3";
+        return "test7";
     }
 }
